@@ -1,5 +1,4 @@
 import ReplicateModel from './replicate-model.js'
-import fs from 'fs/promises'
 
 class Bark extends ReplicateModel {
   constructor(replicate, defaulInputs) {
@@ -8,6 +7,7 @@ class Bark extends ReplicateModel {
     this.version = 'b76242b40d67c76ab6742e987628a2a9ac019e11d56ab96c4e91ce03b79b2787'
     super(replicate, defaulInputs)
 
+    this.promptSplit = '\n---\n'
     this.inputFilePath = 'inputs/bark-prompts.txt'
     this.outputDirectory = 'outputs/bark'
   }
@@ -16,11 +16,6 @@ class Bark extends ReplicateModel {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction.audio_out, `${fileNameBase}.wav`)
     await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
-  }
-
-  async readPromptsFromFile(fileName) {
-    const content = await fs.readFile(fileName, 'utf-8')
-    return content.split('\n---\n')
   }
 }
 

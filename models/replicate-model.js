@@ -6,6 +6,7 @@ class ReplicateModel {
   constructor(replicate, defaultInputs = {}) {
     this.replicate = replicate
     this.defaultInputs = defaultInputs
+    this.promptSplit = '\n'
     this.identifier = `${this.user}/${this.model}:${this.version}`
   }
 
@@ -50,7 +51,7 @@ class ReplicateModel {
 
   async readPromptsFromFile(fileName) {
     const content = await fs.readFile(fileName, 'utf-8')
-    const prompts = content.split('\n')
+    const prompts = content.split(this.promptSplit)
     return prompts.filter(prompt => prompt.trim().length > 0)
   }
 
