@@ -14,7 +14,7 @@ class StableLM extends ReplicateModel {
 `${input.prompt}
 ---
 ${prediction.join('')}`
-    await this.saveTextFile(text, `${fileNameBase}.txt`)
+    await this.saveFile(text, `${fileNameBase}.txt`)
   }
 }
 

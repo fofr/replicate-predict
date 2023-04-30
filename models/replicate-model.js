@@ -30,16 +30,25 @@ class ReplicateModel {
   }
 
   mergeInputWithDefaults(input) {
-    return {
+    const mergedInputs = {
       ...this.defaultInputs,
       ...input
     }
+
+    // Do not pass the originalImage input to the model
+    delete mergedInputs.originalImage
+
+    return mergedInputs
   }
 
-  generateFileName(prompt) {
+  generateFileName(text) {
     const timestamp = new Date().toISOString().replace(/[-:.]/g, '')
-    const promptStart = prompt.slice(0, 30).replace(/\s+/g, '_')
-    return `${timestamp}_${promptStart}`
+    if (!text) {
+      return timestamp
+    }
+
+    const textStart = text.slice(0, 30).replace(/\s+/g, '_')
+    return `${timestamp}_${textStart}`
   }
 
   async predict(input) {
@@ -60,12 +69,12 @@ class ReplicateModel {
     })
   }
 
-  async saveTextFile(text, fileName) {
+  async saveFile(text, fileName) {
     await fs.writeFile(path.join(this.outputDirectory, fileName), text)
   }
 
   async savePrompt(text, fileName) {
-    await this.saveTextFile(text, fileName)
+    await this.saveFile(text, fileName)
   }
 
   async readPromptsFromFile(fileName) {
