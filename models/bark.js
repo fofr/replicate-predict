@@ -20,13 +20,11 @@ class Bark extends ReplicateModel {
     }
   }
 
-  async predict (inputs = []) {
-    return asyncPool(5, inputs, async input => {
-      const mergedInput = this.mergeInputWithDefaults(input)
-      const prediction = await super.predict(mergedInput)
-      await this.saveOutputs(prediction, input)
-      return prediction
-    })
+  async predict (input) {
+    const mergedInput = this.mergeInputWithDefaults(input)
+    const prediction = await super.predict(mergedInput)
+    await this.saveOutputs(prediction, input)
+    return prediction
   }
 
   async saveAudio (audioUrl, fileName) {
@@ -68,30 +66,8 @@ class Bark extends ReplicateModel {
   async runAll () {
     const prompts = await this.readPromptsFromFile('bark-prompts.txt')
     const inputs = prompts.map(prompt => ({ prompt: prompt.trim() }))
-    await this.predict(inputs)
+    await this.predictMany(inputs)
   }
-}
-
-async function asyncPool (poolLimit, array, iteratorFn) {
-  const ret = []
-  const executing = []
-
-  for (const item of array) {
-    const p = iteratorFn(item)
-    ret.push(p)
-
-    if (poolLimit <= array.length) {
-      const e = p.finally(() => {
-        executing.splice(executing.indexOf(e), 1)
-      })
-      executing.push(e)
-      if (executing.length >= poolLimit) {
-        await Promise.race(executing)
-      }
-    }
-  }
-
-  return Promise.all(ret)
 }
 
 export default Bark
