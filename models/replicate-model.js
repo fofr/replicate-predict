@@ -7,6 +7,21 @@ class ReplicateModel {
     this.replicate = replicate
     this.defaultInputs = defaultInputs
     this.promptSplit = '\n'
+    this.outputDirectory = `outputs/${this.constructor.name.toLowerCase()}`
+    this.inputFilePath = `inputs/${this.constructor.name.toLowerCase()}-prompts.txt`
+    this.ensureOutputDirectoryExists()
+  }
+
+  async ensureOutputDirectoryExists() {
+    try {
+      await fs.access(this.outputDirectory)
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        await fs.mkdir(this.outputDirectory, { recursive: true })
+      } else {
+        throw error
+      }
+    }
   }
 
   identifier() {
@@ -44,8 +59,12 @@ class ReplicateModel {
     })
   }
 
-  async savePrompt(promptText, fileName) {
-    await fs.writeFile(path.join(this.outputDirectory, fileName), promptText)
+  async saveTextFile(text, fileName) {
+    await fs.writeFile(path.join(this.outputDirectory, fileName), text)
+  }
+
+  async savePrompt(text, fileName) {
+    await this.saveTextFile(text, fileName)
   }
 
   async readPromptsFromFile(fileName) {
