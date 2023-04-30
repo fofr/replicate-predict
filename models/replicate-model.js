@@ -74,6 +74,13 @@ class ReplicateModel {
       })
     })
   }
+
+  async loadImageAsDataURI(imagePath) {
+    const data = await fs.readFile(imagePath)
+    const base64 = data.toString('base64')
+    const mimeType = path.extname(imagePath) === '.png' ? 'image/png' : 'image/jpeg'
+    return `data:${mimeType};base64,${base64}`
+  }
 }
 
 async function asyncPool(poolLimit, array, iteratorFn) {
