@@ -12,12 +12,6 @@ class Bark extends ReplicateModel {
     this.outputDirectory = 'outputs/bark'
   }
 
-  async predict(input) {
-    const prediction = await super.predict(input)
-    await this.saveOutputs(prediction, input)
-    return prediction
-  }
-
   async saveOutputs(prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction.audio_out, `${fileNameBase}.wav`)

@@ -11,12 +11,6 @@ class Kandinsky extends ReplicateModel {
     this.outputDirectory = 'outputs/kandinsky'
   }
 
-  async predict(input) {
-    const prediction = await super.predict(input)
-    await this.saveOutputs(prediction, input)
-    return prediction
-  }
-
   async saveOutputs(prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction[0], `${fileNameBase}.png`)

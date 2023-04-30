@@ -29,7 +29,13 @@ class ReplicateModel {
 
     const mergedInput = this.mergeInputWithDefaults(input)
     console.log('Running', this.constructor.name, mergedInput)
-    return await this.replicate.run(this.identifier, { input: mergedInput })
+    const prediction = await this.replicate.run(this.identifier, { input: mergedInput })
+
+    if (typeof this.saveOutputs === 'function') {
+      await this.saveOutputs(prediction, input)
+    }
+
+    return prediction
   }
 
   async predictMany(inputs = [], poolLimit = 5) {
