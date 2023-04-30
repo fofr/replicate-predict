@@ -7,6 +7,7 @@ class ReplicateModel {
     this.replicate = replicate
     this.defaultInputs = defaultInputs
     this.promptSplit = '\n'
+    this.defaultSingleInputName = 'prompt'
     this.outputDirectory = `outputs/${this.constructor.name.toLowerCase()}`
     this.inputFilePath = `inputs/${this.constructor.name.toLowerCase()}-prompts.txt`
     this.ensureOutputDirectoryExists()

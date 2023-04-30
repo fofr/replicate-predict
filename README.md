@@ -16,7 +16,7 @@ You need:
 
 ```sh
 git clone https://github.com/fofr/replicate-predict
-cd replicate-predice
+cd replicate-predict
 npm install
 ```
 
