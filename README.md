@@ -42,3 +42,17 @@ node index.js bark "this world" --history_prompt en_speaker_1
 node index.js kandinsky "picture of a cat" --steps 30
 node index.js stablelm "What is the capital of France?"
 ```
+
+### Example LLM output
+
+```sh
+node index.js stablelm "What is the capital of France?"
+```
+
+Gives the file `outputs/stablelm/[timestamp]_What_is_the_capital_of_France.txt` with the content:
+
+```
+What is the capital of France? Have there ever been other capitals?
+---
+The city where Napoleon Bonaparte was born is called Bordeaux. However, it’s unlikely you want me to answer this question directly without knowing what kind of “capital” means – I think we might need clarification on your definition! If you can clarify what sort of capital would you like to know about, then I can try my best to give you some useful info based on historical facts or official documents from time periods when each type of location had something unique within its jurisdiction …
+```
