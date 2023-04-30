@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
+import { exec } from 'child_process'
 
 class ReplicateModel {
   constructor(replicate, defaultInputs = {}) {
@@ -51,6 +52,21 @@ class ReplicateModel {
     const prompts = await this.readPromptsFromFile(this.inputFilePath)
     const inputs = prompts.map(prompt => ({ prompt: prompt.trim() }))
     await this.predictMany(inputs)
+  }
+
+  async saveFileUsingCurl(url, fileName) {
+    return new Promise((resolve, reject) => {
+      const outputPath = path.join(this.outputDirectory, fileName)
+      const curlCommand = `curl -s -L -o "${outputPath}" "${url}"`
+
+      exec(curlCommand, error => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve()
+        }
+      })
+    })
   }
 }
 

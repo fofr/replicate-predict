@@ -1,6 +1,4 @@
 import ReplicateModel from './replicate-model.js'
-import path from 'path'
-import { exec } from 'child_process'
 
 class Kandinsky extends ReplicateModel {
   constructor(replicate, defaulInputs) {
@@ -19,24 +17,9 @@ class Kandinsky extends ReplicateModel {
     return prediction
   }
 
-  async saveImage(imageUrl, fileName) {
-    return new Promise((resolve, reject) => {
-      const outputPath = path.join(this.outputDirectory, fileName)
-      const curlCommand = `curl -s -L -o "${outputPath}" "${imageUrl}"`
-
-      exec(curlCommand, error => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve()
-        }
-      })
-    })
-  }
-
   async saveOutputs(prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveImage(prediction[0], `${fileNameBase}.png`)
+    await this.saveFileUsingCurl(prediction[0], `${fileNameBase}.png`)
     await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
   }
 }

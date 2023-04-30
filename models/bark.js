@@ -1,7 +1,5 @@
 import ReplicateModel from './replicate-model.js'
 import fs from 'fs/promises'
-import path from 'path'
-import { exec } from 'child_process'
 
 class Bark extends ReplicateModel {
   constructor(replicate, defaulInputs) {
@@ -20,24 +18,9 @@ class Bark extends ReplicateModel {
     return prediction
   }
 
-  async saveAudio(audioUrl, fileName) {
-    return new Promise((resolve, reject) => {
-      const outputPath = path.join(outputDirectory, fileName)
-      const curlCommand = `curl -s -L -o "${outputPath}" "${audioUrl}"`
-
-      exec(curlCommand, error => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve()
-        }
-      })
-    })
-  }
-
   async saveOutputs(prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveAudio(prediction.audio_out, `${fileNameBase}.wav`)
+    await this.saveFileUsingCurl(prediction.audio_out, `${fileNameBase}.wav`)
     await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
   }
 
