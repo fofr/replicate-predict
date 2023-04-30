@@ -7,7 +7,10 @@ class ReplicateModel {
     this.replicate = replicate
     this.defaultInputs = defaultInputs
     this.promptSplit = '\n'
-    this.identifier = `${this.user}/${this.model}:${this.version}`
+  }
+
+  identifier() {
+    return `${this.user}/${this.model}:${this.version}`
   }
 
   mergeInputWithDefaults(input) {
@@ -24,13 +27,9 @@ class ReplicateModel {
   }
 
   async predict(input) {
-    if (!this.identifier) {
-      throw new Error('Identifier must be defined in the derived class.')
-    }
-
     const mergedInput = this.mergeInputWithDefaults(input)
     console.log('Running', this.constructor.name, mergedInput)
-    const prediction = await this.replicate.run(this.identifier, { input: mergedInput })
+    const prediction = await this.replicate.run(this.identifier(), { input: mergedInput })
 
     if (typeof this.saveOutputs === 'function') {
       await this.saveOutputs(prediction, input)
