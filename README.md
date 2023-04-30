@@ -25,18 +25,20 @@ Rename `.env.example` as `.env` and add your Replicate API token.
 ## Usage
 
 ```sh
-node index.js <model_name> <option> [<prompt>]
+node index.js <model_name> <option> [--<option_name> <option_value>]*
 ```
 
 `model_name`: The name of the model you want to use (bark, kandinsky, or stablelm).
-`option`: Either -a, --all, or a custom `prompt` for the model.
-`prompt`: An optional custom prompt for the model. This argument should be provided if the `option` is not -a or --all.
+`option`: Either -a, --all, or a model’s default input, such as `prompt` or `image`.
 
 ### Examples
 
 ```sh
-node index.js bark "hello there, this is a test"
-node index.js kandinsky "picture of a cat"
-node index.js stablelm "What is the capital of France?"
+node index.js bark "this world"
+node index.js bark --prompt "this world"
 node index.js bark --all # inputs/bark-prompts.txt
+node index.js bark "this world" --history_prompt en_speaker_1
+
+node index.js kandinsky "picture of a cat" --steps 30
+node index.js stablelm "What is the capital of France?"
 ```
