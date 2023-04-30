@@ -22,30 +22,21 @@ npm install
 
 Rename `.env.example` as `.env` and add your Replicate API token.
 
-## Example usage
+## Usage
 
-```js
-import Replicate from 'replicate'
-import * as dotenv from 'dotenv'
-import Kandinsky from './models/kandinsky.js'
-dotenv.config()
-
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-})
-
-const k = new Kandinsky(replicate)
-k.runAll().then(() => { console.log("Done") })
+```sh
+node index.js <model_name> <option> [<prompt>]
 ```
 
-## Models
+`model_name`: The name of the model you want to use (bark, kandinsky, or stablelm).
+`option`: Either -a, --all, or a custom `prompt` for the model.
+`prompt`: An optional custom prompt for the model. This argument should be provided if the `option` is not -a or --all.
 
-### Kandinsky
+### Examples
 
-- Input: `inputs/kandinsky-prompts.txt`, one prompt per line
-- Output: `outputs/kandinsky`, saves prompt as txt file alongside image
-
-### Bark
-
-- Input: `inputs/bark-prompts.txt`, multiline prompts separated with `---`
-- Output: `outputs/bark`, saves prompt as txt file alongside audio file
+```sh
+node index.js bark "hello there, this is a test"
+node index.js kandinsky "picture of a cat"
+node index.js stablelm "What is the capital of France?"
+node index.js bark --all # inputs/bark-prompts.txt
+```
