@@ -1,0 +1,16 @@
+{
+  "name": "replicate-predict",
+  "version": "1.0.0",
+  "description": "Run predictions for favourite models",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "replicate": "^0.11.1"
+  }
+}
