@@ -1,6 +1,24 @@
+import fs from 'fs/promises'
+import path from 'path'
+
 class ReplicateModel {
-  constructor(replicate) {
+  constructor(replicate, defaultInputs = {}) {
     this.replicate = replicate
+    this.defaultInputs = defaultInputs
+    this.identifier = `${this.user}/${this.model}:${this.version}`
+  }
+
+  mergeInputWithDefaults(input) {
+    return {
+      ...this.defaultInputs,
+      ...input
+    }
+  }
+
+  generateFileName(prompt) {
+    const timestamp = new Date().toISOString().replace(/[-:.]/g, '')
+    const promptStart = prompt.slice(0, 30).replace(/\s+/g, '_')
+    return `${timestamp}_${promptStart}`
   }
 
   async predict(input) {
@@ -8,14 +26,31 @@ class ReplicateModel {
       throw new Error('Identifier must be defined in the derived class.')
     }
 
-    console.log('Running', this.constructor.name, input)
-    return await this.replicate.run(this.identifier, { input })
+    const mergedInput = this.mergeInputWithDefaults(input)
+    console.log('Running', this.constructor.name, mergedInput)
+    return await this.replicate.run(this.identifier, { input: mergedInput })
   }
 
   async predictMany(inputs = [], poolLimit = 5) {
     return asyncPool(poolLimit, inputs, async input => {
       return await this.predict(input)
     })
+  }
+
+  async savePrompt(promptText, fileName) {
+    await fs.writeFile(path.join(this.outputDirectory, fileName), promptText)
+  }
+
+  async readPromptsFromFile(fileName) {
+    const content = await fs.readFile(fileName, 'utf-8')
+    const prompts = content.split('\n')
+    return prompts.filter(prompt => prompt.trim().length > 0)
+  }
+
+  async runAll() {
+    const prompts = await this.readPromptsFromFile(this.inputFilePath)
+    const inputs = prompts.map(prompt => ({ prompt: prompt.trim() }))
+    await this.predictMany(inputs)
   }
 }
 
