@@ -3,8 +3,11 @@ import fs from 'fs/promises'
 import path from 'path'
 import { exec } from 'child_process'
 
+const inputFilePath = 'inputs/bark-prompts.txt'
+const outputDirectory = 'output/bark'
+
 class Bark extends ReplicateModel {
-  constructor (replicate) {
+  constructor(replicate) {
     super(replicate)
     this.user = 'suno-ai'
     this.model = 'bark'
@@ -13,23 +16,23 @@ class Bark extends ReplicateModel {
     this.defaultInputs = {}
   }
 
-  mergeInputWithDefaults (input) {
+  mergeInputWithDefaults(input) {
     return {
       ...this.defaultInputs,
       ...input
     }
   }
 
-  async predict (input) {
+  async predict(input) {
     const mergedInput = this.mergeInputWithDefaults(input)
     const prediction = await super.predict(mergedInput)
     await this.saveOutputs(prediction, input)
     return prediction
   }
 
-  async saveAudio (audioUrl, fileName) {
+  async saveAudio(audioUrl, fileName) {
     return new Promise((resolve, reject) => {
-      const outputPath = path.join('outputs', 'bark', fileName)
+      const outputPath = path.join(outputDirectory, fileName)
       const curlCommand = `curl -s -L -o "${outputPath}" "${audioUrl}"`
 
       exec(curlCommand, error => {
@@ -42,29 +45,29 @@ class Bark extends ReplicateModel {
     })
   }
 
-  async savePrompt (promptText, fileName) {
-    await fs.writeFile(path.join('outputs', 'bark', fileName), promptText)
+  async savePrompt(promptText, fileName) {
+    await fs.writeFile(path.join(outputDirectory, fileName), promptText)
   }
 
-  generateFileName (prompt) {
+  generateFileName(prompt) {
     const timestamp = new Date().toISOString().replace(/[-:.]/g, '')
     const promptStart = prompt.slice(0, 10).replace(/\s+/g, '_')
     return `${timestamp}_${promptStart}`
   }
 
-  async saveOutputs (prediction, input) {
+  async saveOutputs(prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveAudio(prediction.audio_out, `${fileNameBase}.wav`)
     await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
   }
 
-  async readPromptsFromFile (fileName) {
+  async readPromptsFromFile(fileName) {
     const content = await fs.readFile(fileName, 'utf-8')
     return content.split('\n---\n')
   }
 
-  async runAll () {
-    const prompts = await this.readPromptsFromFile('bark-prompts.txt')
+  async runAll() {
+    const prompts = await this.readPromptsFromFile(inputFilePath)
     const inputs = prompts.map(prompt => ({ prompt: prompt.trim() }))
     await this.predictMany(inputs)
   }
