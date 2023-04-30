@@ -46,7 +46,7 @@ node index.js stablelm "What is the capital of France?"
 ### Example LLM output
 
 ```sh
-node index.js stablelm "What is the capital of France?"
+node index.js stablelm "What is the capital of France? Have there ever been other capitals?"
 ```
 
 Gives the file `outputs/stablelm/[timestamp]_What_is_the_capital_of_France.txt` with the content:
