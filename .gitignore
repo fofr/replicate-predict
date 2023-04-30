@@ -3,3 +3,4 @@ node_modules
 outputs/
 inputs/
 .DS_Store
+temp/

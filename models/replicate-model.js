@@ -10,15 +10,15 @@ class ReplicateModel {
     this.defaultSingleInputName = 'prompt'
     this.outputDirectory = `outputs/${this.constructor.name.toLowerCase()}`
     this.inputFilePath = `inputs/${this.constructor.name.toLowerCase()}-prompts.txt`
-    this.ensureOutputDirectoryExists()
+    this.ensureDirectoryExists(this.outputDirectory)
   }
 
-  async ensureOutputDirectoryExists() {
+  async ensureDirectoryExists(directoryPath) {
     try {
-      await fs.access(this.outputDirectory)
+      await fs.access(directoryPath)
     } catch (error) {
       if (error.code === 'ENOENT') {
-        await fs.mkdir(this.outputDirectory, { recursive: true })
+        await fs.mkdir(directoryPath, { recursive: true })
       } else {
         throw error
       }
@@ -80,9 +80,14 @@ class ReplicateModel {
     await this.predictMany(inputs)
   }
 
-  async saveFileUsingCurl(url, fileName) {
+  async saveFileUsingCurl(url, fileName = null, directory = this.outputDirectory) {
     return new Promise((resolve, reject) => {
-      const outputPath = path.join(this.outputDirectory, fileName)
+      if (!fileName) {
+        const urlObj = new URL(url)
+        fileName = `${Date.now()}-${path.basename(urlObj.pathname)}`
+      }
+
+      const outputPath = path.join(directory, fileName)
       const curlCommand = `curl -s -L -o "${outputPath}" "${url}"`
 
       exec(curlCommand, error => {
@@ -95,7 +100,20 @@ class ReplicateModel {
     })
   }
 
-  async loadImageAsDataURI(imagePath) {
+  async loadImageAsDataURI(inputPath) {
+    let imagePath
+
+    if (isURL(inputPath)) {
+      const tempDir = 'temp'
+      const urlObj = new URL(inputPath)
+      const filename = `${Date.now()}_${path.basename(urlObj.pathname)}`
+      await this.ensureDirectoryExists(tempDir)
+      await this.saveFileUsingCurl(inputPath, filename, tempDir)
+      imagePath = path.join(tempDir, filename)
+    } else {
+      imagePath = inputPath
+    }
+
     const data = await fs.readFile(imagePath)
     const base64 = data.toString('base64')
     const mimeType = path.extname(imagePath) === '.png' ? 'image/png' : 'image/jpeg'
@@ -123,6 +141,15 @@ async function asyncPool(poolLimit, array, iteratorFn) {
   }
 
   return Promise.all(ret)
+}
+
+function isURL(str) {
+  try {
+    new URL(str)
+    return true
+  } catch (_) {
+    return false
+  }
 }
 
 export default ReplicateModel
