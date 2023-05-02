@@ -60,7 +60,7 @@ class ReplicateModel {
       await this.saveOutputs(prediction, input)
     }
 
-    return prediction
+    return this.output(prediction)
   }
 
   async predictMany(inputs = [], poolLimit = 5) {
@@ -107,6 +107,10 @@ class ReplicateModel {
         }
       })
     })
+  }
+
+  async output(prediction) {
+    return prediction
   }
 
   async loadImageAsDataURI(inputPath) {

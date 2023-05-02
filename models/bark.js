@@ -9,6 +9,10 @@ class Bark extends ReplicateModel {
     this.promptSplit = '\n---\n'
   }
 
+  async output(prediction) {
+    return prediction.audio_out
+  }
+
   async saveOutputs(prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction.audio_out, `${fileNameBase}.wav`)
