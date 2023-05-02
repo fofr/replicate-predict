@@ -6,9 +6,15 @@ import ReplicateModel from '../models/replicate-model.js'
 class TalkingHead extends ReplicateModel {
   constructor(replicate, defaultInputs = {}) {
     super(replicate, defaultInputs)
-    this.bark = new Bark(this.replicate)
-    this.kandinsky = new Kandinsky(this.replicate)
-    this.sadTalker = new SadTalker(this.replicate)
+    this.bark = new Bark(this.replicate, {
+      history_prompt: 'announcer'
+    }, this.outputDirectory)
+    this.kandinsky = new Kandinsky(this.replicate, {}, this.outputDirectory)
+    this.sadTalker = new SadTalker(this.replicate, {
+      enhancer: 'gfpgan',
+      preprocess: 'full',
+      still: true
+    }, this.outputDirectory)
   }
 
   async predict(input) {
@@ -16,10 +22,7 @@ class TalkingHead extends ReplicateModel {
     const kandinskyOutput = await this.kandinsky.predict({ prompt: input.image_prompt })
     const sadTalkerInput = {
       source_image: kandinskyOutput,
-      driven_audio: barkOutput,
-      enhancer: 'gfpgan',
-      preprocess: 'full',
-      still: true
+      driven_audio: barkOutput
     }
 
     return await this.sadTalker.predict(sadTalkerInput)
