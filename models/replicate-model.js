@@ -110,17 +110,8 @@ class ReplicateModel {
   }
 
   async loadImageAsDataURI(inputPath) {
-    let imagePath
-
     if (isURL(inputPath)) {
-      const tempDir = 'temp'
-      const urlObj = new URL(inputPath)
-      const filename = `${Date.now()}_${path.basename(urlObj.pathname)}`
-      await this.ensureDirectoryExists(tempDir)
-      await this.saveFileUsingCurl(inputPath, filename, tempDir)
-      imagePath = path.join(tempDir, filename)
-    } else {
-      imagePath = inputPath
+      return inputPath
     }
 
     const data = await fs.readFile(imagePath)
