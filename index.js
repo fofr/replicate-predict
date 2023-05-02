@@ -1,6 +1,6 @@
 import Replicate from 'replicate'
 import * as dotenv from 'dotenv'
-import loadModels from './models.js'
+import { loadModels, loadWorkflows } from './loader.js'
 
 dotenv.config()
 
@@ -23,6 +23,8 @@ function parseArgs (args) {
 
 async function main () {
   const models = await loadModels()
+  const workflows = await loadWorkflows()
+
   const modelName = process.argv[2]
   const args = process.argv.slice(3)
   const options = parseArgs(args)
@@ -34,35 +36,64 @@ async function main () {
   }
 
   const ModelClass = models[modelName.toLowerCase()]
+  const WorkflowClass = workflows[modelName.toLowerCase()]
 
-  if (!ModelClass) {
-    console.log('Invalid model name. Available models:', Object.keys(models).join(', '))
+  if (!ModelClass && !WorkflowClass) {
+    console.log('Invalid model or workflow name. Available models:', Object.keys(models).join(', '))
+    console.log('Available workflows:', Object.keys(workflows).join(', '))
     process.exit(1)
   }
 
-  const modelInstance = new ModelClass(replicate)
+  if (ModelClass) {
+    const modelInstance = new ModelClass(replicate)
 
-  if (options.unnamedArg0 && (options.unnamedArg0.toLowerCase() === '-a' || options.unnamedArg0.toLowerCase() === '--all')) {
-    await modelInstance.runAll()
-    console.log(`${modelName.charAt(0).toUpperCase() + modelName.slice(1)}: Done`)
-  } else {
-    const inputKey = modelInstance.defaultSingleInputName
-    const input = options[inputKey] || options.unnamedArg0
+    if (options.unnamedArg0 && (options.unnamedArg0.toLowerCase() === '-a' || options.unnamedArg0.toLowerCase() === '--all')) {
+      await modelInstance.runAll()
+      console.log(`${modelName.charAt(0).toUpperCase() + modelName.slice(1)}: Done`)
+    } else {
+      const inputKey = modelInstance.defaultSingleInputName
+      const input = options[inputKey] || options.unnamedArg0
 
-    if (!input) {
-      console.log(`Missing input for ${inputKey}.`)
-      process.exit(1)
+      if (!input) {
+        console.log(`Missing input for ${inputKey}.`)
+        process.exit(1)
+      }
+
+      const predictOptions = {
+        [inputKey]: input,
+        ...options
+      }
+      delete predictOptions.unnamedArg0
+
+      const result = await modelInstance.predict(predictOptions)
+      console.log('Prediction:', result)
+      console.log('Done')
     }
+  } else if (WorkflowClass) {
+    const workflowInstance = new WorkflowClass(replicate)
 
-    const predictOptions = {
-      [inputKey]: input,
-      ...options
+    if (options.unnamedArg0 && (options.unnamedArg0.toLowerCase() === '-a' || options.unnamedArg0.toLowerCase() === '--all')) {
+      await workflowInstance.runAll()
+      console.log(`${modelName.charAt(0).toUpperCase() + modelName.slice(1)}: Done`)
+    } else {
+      const inputKey = workflowInstance.defaultSingleInputName
+      const input = options[inputKey] || options.unnamedArg0
+
+      if (!input) {
+        console.log(`Missing input for ${inputKey}.`)
+        process.exit(1)
+      }
+
+      const predictOptions = {
+        [inputKey]: input,
+        ...options
+      }
+      delete predictOptions.unnamedArg0
+
+      const result = await workflowInstance.predict(predictOptions)
+      console.log('Workflow result:', result)
+      console.log('Done')
     }
-    delete predictOptions.unnamedArg0
-
-    const result = await modelInstance.predict(predictOptions)
-    console.log('Prediction:', result)
-    console.log('Done')
   }
 }
 
