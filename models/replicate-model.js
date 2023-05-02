@@ -109,7 +109,7 @@ class ReplicateModel {
     })
   }
 
-  async output(prediction) {
+  output(prediction) {
     return prediction
   }
 

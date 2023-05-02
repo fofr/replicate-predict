@@ -8,7 +8,7 @@ class Kandinsky extends ReplicateModel {
     this.version = '601eea49d49003e6ea75a11527209c4f510a93e2112c969d548fbb45b9c4f19f'
   }
 
-  async output(prediction) {
+  output(prediction) {
     return prediction[0]
   }
 

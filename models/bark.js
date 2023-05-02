@@ -9,7 +9,7 @@ class Bark extends ReplicateModel {
     this.promptSplit = '\n---\n'
   }
 
-  async output(prediction) {
+  output(prediction) {
     return prediction.audio_out
   }
 
