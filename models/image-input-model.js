@@ -1,8 +1,8 @@
 import ReplicateModel from './replicate-model.js'
 
 class ImageInputModel extends ReplicateModel {
-  constructor(replicate, defaulInputs) {
-    super(replicate, defaulInputs)
+  constructor(replicate, defaultInputs) {
+    super(replicate, defaultInputs)
     this.defaultSingleInputName = 'image'
   }
 
