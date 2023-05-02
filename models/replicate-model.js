@@ -3,12 +3,12 @@ import path from 'path'
 import { exec } from 'child_process'
 
 class ReplicateModel {
-  constructor(replicate, defaultInputs = {}) {
+  constructor(replicate, defaultInputs = {}, outputDirectory = null) {
     this.replicate = replicate
     this.defaultInputs = defaultInputs
     this.promptSplit = '\n'
     this.defaultSingleInputName = 'prompt'
-    this.outputDirectory = `outputs/${this.constructor.name.toLowerCase()}`
+    this.outputDirectory = outputDirectory || `outputs/${this.constructor.name.toLowerCase()}`
     this.inputFilePath = `inputs/${this.constructor.name.toLowerCase()}-prompts.txt`
     this.ensureDirectoryExists(this.outputDirectory)
   }
