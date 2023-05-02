@@ -2,8 +2,11 @@
 
 A wrapper library to make running parallel API calls to Replicate models easier.
 
-- put prompts in a text file in an `inputs` directory
-- save outputs using curl to an `outputs` directory
+- command line models and params
+- batch process prompts in a text file in an `inputs` directory
+- automaticall save outputs (alongside params) using curl to an `outputs` directory
+
+[See supported models](https://github.com/fofr/replicate-predict/tree/main/models)
 
 ## Requirements
 
@@ -41,6 +44,8 @@ node index.js bark "this world" --history_prompt en_speaker_1
 
 node index.js kandinsky "picture of a cat" --steps 30
 node index.js stablelm "What is the capital of France?"
+node index.js modelscope "video of a bear"
+node index.js esrgan https://pbs.twimg.com/profile_images/1592472040992284674/oo_p8ahp_400x400.jpg
 ```
 
 ### Example LLM output
