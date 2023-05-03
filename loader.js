@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-async function loadModels() {
+async function loadModels () {
   const modelsDirectory = path.join(__dirname, 'models')
   const modelFiles = fs.readdirSync(modelsDirectory).filter(file => file.endsWith('.js'))
 
@@ -18,7 +18,7 @@ async function loadModels() {
   return models
 }
 
-async function loadWorkflows() {
+async function loadWorkflows () {
   const workflowsDirectory = path.join(__dirname, 'workflows')
   const workflowFiles = fs.readdirSync(workflowsDirectory).filter(file => file.endsWith('.js'))
 

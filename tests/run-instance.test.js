@@ -1,25 +1,25 @@
 import { runInstance } from '../lib/run-instance.js'
 
 class MockInstance {
-  constructor(shouldThrow) {
+  constructor (shouldThrow) {
     this.shouldThrow = shouldThrow
   }
 
-  async runAll() {
+  async runAll () {
     if (this.shouldThrow) {
       throw new Error('Error in runAll')
     }
     return 'All run'
   }
 
-  async predict(options) {
+  async predict (options) {
     if (this.shouldThrow) {
       throw new Error('Error in predict')
     }
     return options
   }
 
-  get defaultSingleInputName() {
+  get defaultSingleInputName () {
     return 'input'
   }
 }

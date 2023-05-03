@@ -4,7 +4,7 @@ import SadTalker from '../models/sadtalker.js'
 import ReplicateModel from '../lib/replicate-model.js'
 
 class TalkingHead extends ReplicateModel {
-  constructor(replicate, defaultInputs = {}) {
+  constructor (replicate, defaultInputs = {}) {
     super(replicate, defaultInputs)
     this.bark = new Bark(this.replicate, {
       history_prompt: 'announcer'
@@ -17,7 +17,7 @@ class TalkingHead extends ReplicateModel {
     }, this.outputDirectory)
   }
 
-  async predict(input) {
+  async predict (input) {
     const barkOutput = await this.bark.predict({ prompt: input.prompt })
     const kandinskyOutput = await this.kandinsky.predict({ prompt: input.image_prompt })
     const sadTalkerInput = {
@@ -29,4 +29,4 @@ class TalkingHead extends ReplicateModel {
   }
 }
 
-export default TalkingHead;
+export default TalkingHead

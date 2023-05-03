@@ -1,7 +1,7 @@
 import ReplicateModel from '../lib/replicate-model.js'
 
 class SadTalker extends ReplicateModel {
-  constructor(replicate, defaultInputs) {
+  constructor (replicate, defaultInputs) {
     super(replicate, defaultInputs)
     this.user = 'cjwbw'
     this.model = 'sadtalker'
@@ -9,7 +9,7 @@ class SadTalker extends ReplicateModel {
     this.defaultSingleInputName = 'source_image'
   }
 
-  async saveOutputs(prediction, input) {
+  async saveOutputs (prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp4`)
   }
