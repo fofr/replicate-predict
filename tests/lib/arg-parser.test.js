@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { parseArgs } from '../lib/arg-parser.js'
+import { parseArgs } from '../../lib/arg-parser.js'
 
 describe('parseArgs', () => {
   test('No arguments', () => {

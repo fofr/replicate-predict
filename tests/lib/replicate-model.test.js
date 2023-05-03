@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import ReplicateModel from '../lib/replicate-model.js'
+import ReplicateModel from '../../lib/replicate-model.js'
 import fs from 'fs/promises'
 import path, { dirname } from 'path'
 import { jest } from '@jest/globals'
