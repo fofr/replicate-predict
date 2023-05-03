@@ -2,6 +2,7 @@ import Replicate from 'replicate'
 import { config } from 'dotenv'
 import { loadModels, loadWorkflows } from './loader.js'
 import { parseArgs } from './lib/arg-parser.js'
+import { runInstance } from './lib/run-instance.js'
 
 config()
 
@@ -28,33 +29,19 @@ async function main () {
   const InstanceClass = ModelClass || WorkflowClass
 
   if (!InstanceClass) {
-    console.log('Invalid model or workflow name. Available models:', Object.keys(models).join(', '))
-    console.log('Available workflows:', Object.keys(workflows).join(', '))
+    console.log('Invalid model or workflow name. Available models: ', Object.keys(models).join(', '))
+    console.log('Available workflows: ', Object.keys(workflows).join(', '))
     process.exit(1)
   }
 
   const instance = new InstanceClass(replicate)
 
-  if (options.unnamedArg0 && (options.unnamedArg0.toLowerCase() === '-a' || options.unnamedArg0.toLowerCase() === '--all')) {
-    await instance.runAll()
-    console.log(`${modelName.charAt(0).toUpperCase() + modelName.slice(1)}: Done`)
-  } else {
-    const inputKey = instance.defaultSingleInputName
-    const input = options[inputKey] || options.unnamedArg0
-
-    if (!input) {
-      console.log(`Missing input for ${inputKey}.`)
-      process.exit(1)
-    }
-
-    const predictOptions = {
-      [inputKey]: input,
-      ...options
-    }
-    delete predictOptions.unnamedArg0
-
-    const result = await instance.predict(predictOptions)
+  try {
+    const result = await runInstance(instance, options)
     console.log('Result: ', result)
+  } catch (error) {
+    console.error(error.message)
+    process.exit(1)
   }
 }
 
