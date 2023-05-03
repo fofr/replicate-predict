@@ -1,4 +1,4 @@
-import ReplicateModel from './replicate-model.js'
+import ReplicateModel from '../lib/replicate-model.js'
 
 class SadTalker extends ReplicateModel {
   constructor(replicate, defaultInputs) {

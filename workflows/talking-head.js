@@ -1,7 +1,7 @@
 import Bark from '../models/bark.js'
 import Kandinsky from '../models/kandinsky.js'
 import SadTalker from '../models/sadtalker.js'
-import ReplicateModel from '../models/replicate-model.js'
+import ReplicateModel from '../lib/replicate-model.js'
 
 class TalkingHead extends ReplicateModel {
   constructor(replicate, defaultInputs = {}) {

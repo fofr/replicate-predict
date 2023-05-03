@@ -1,4 +1,4 @@
-import ImageInputModel from './image-input-model.js'
+import ImageInputModel from '../lib/image-input-model.js'
 
 class ControlNet extends ImageInputModel {
   constructor(replicate, defaultInputs = { structure: 'canny' }) {

@@ -1,4 +1,4 @@
-import ImageInputModel from './image-input-model.js'
+import ImageInputModel from '../lib/image-input-model.js'
 
 class Blip extends ImageInputModel {
   constructor(replicate, defaultInputs) {
