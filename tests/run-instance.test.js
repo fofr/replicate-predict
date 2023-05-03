@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { runInstance } from '../lib/run-instance.js'
 
 class MockInstance {
