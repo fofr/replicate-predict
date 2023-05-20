@@ -16,7 +16,7 @@ class TalkingHead extends ReplicateModel {
     }, this.outputDirectory)
   }
 
-  async predict(input) {
+  async predict (input) {
     const tortoisePromise = this.tortoise.predict({ text: input.prompt })
     const kandinskyPromise = this.kandinsky.predict({ prompt: input.image_prompt || 'a portrait photo of a man' })
     const [tortoiseOutput, kandinskyOutput] = await Promise.all([tortoisePromise, kandinskyPromise])
