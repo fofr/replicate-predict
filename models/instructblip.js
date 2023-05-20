@@ -1,7 +1,9 @@
 import ReplicateModel from '../lib/replicate-model.js'
 
 class InstructBlip extends ReplicateModel {
-  constructor (replicate, defaultInputs) {
+  constructor (replicate, defaultInputs = {
+    prompt: 'Describe this image'
+  }) {
     super(replicate, defaultInputs)
     this.user = 'joehoover'
     this.model = 'instructblip-vicuna13b'
