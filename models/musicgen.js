@@ -5,14 +5,13 @@ class MusicGen extends ReplicateModel {
     super(replicate, defaultInputs)
     this.user = 'joehoover'
     this.model = 'musicgen-melody'
-    this.version = '1a53415e6c4549e3022a0af82f4bd22b9ae2e747a8193af91b0bdffe63f93dfd'
-    this.defaultSingleInputName = 'description'
+    this.version = 'daba6434500d14d10b9865fd09c4aa9d9d9651ca68f164e99061f955a18008ac'
   }
 
   async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.description)
+    const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction, `${fileNameBase}.wav`)
-    await this.savePrompt(input.description, `${fileNameBase}.txt`)
+    await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
   }
 }
 
