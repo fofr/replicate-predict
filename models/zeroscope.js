@@ -6,19 +6,19 @@ class ZeroScope extends ReplicateModel {
     fps: 24,
     width: 1024,
     height: 576,
-    guidance_scale: 17.5,
+    guidance_scale: 12.5,
     num_inference_steps: 50,
-    negative_prompt: 'noisy, washed out, ugly, distorted, low quality, garish'
+    negative_prompt: 'noisy, washed out, ugly, distorted, low quality, garish',
+    model: 'xl'
   }) {
     super(replicate, defaultInputs)
     this.user = 'anotherjesse'
     this.model = 'zeroscope-v2-xl'
-    this.version = '8ba52bde11300615f65e9591d7afc58816def12c93c870fa583ff67ae17afdda'
+    this.version = 'dcad8a883c2e99e3bf1d88590ce070bc6dd4e498af14a3f2f6e437f0f1ba7adb'
   }
 
   async predict (input) {
     input.prompt = `${input.prompt}, 8k, beautiful, award winning`
-
     return await super.predict(input)
   }
 
