@@ -20,9 +20,10 @@ async function main () {
 
   if (!modelName || Object.keys(options).length === 0) {
     console.log('Usage: node index.js <model_name> <option> [--<option_name> <option_value>]*')
-    console.log('Options: -a, --all, <single_input_value>')
+    console.log('Options: -a, --all, <single_input_value>, -c <count>, --count <count>')
+    console.log('Use -c or --count with a number to run predict that many times')
     process.exit(1)
-  }
+}
 
   const ModelClass = models[modelName.toLowerCase()]
   const WorkflowClass = workflows[modelName.toLowerCase()]

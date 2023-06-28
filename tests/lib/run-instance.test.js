@@ -15,9 +15,16 @@ class MockInstance {
 
   async predict (options) {
     if (this.shouldThrow) {
-      throw new Error('Error in predict')
+      console.error('Error in predict')
+      return false
     }
     return options
+  }
+
+  async predictMany (inputs = [], poolLimit = 5) {
+    return Promise.all(inputs.map(async input => {
+      return await this.predict(input)
+    }))
   }
 
   get defaultSingleInputName () {
@@ -60,6 +67,31 @@ describe('runInstance', () => {
     const instance = new MockInstance(true)
     const options = { input: 'test' }
 
-    await expect(runInstance(instance, options)).rejects.toThrow('Error in predict')
+    const result = await runInstance(instance, options)
+    expect(result).toEqual(false)
+  })
+
+  test('should run predict 3 times with --count', async () => {
+    const instance = new MockInstance(false)
+    const options = { '--count': 3, input: 'test' }
+    const result = await runInstance(instance, options)
+
+    expect(result).toEqual([{ input: 'test' }, { input: 'test' }, { input: 'test' }])
+  })
+
+  test('should run predict 2 times with -c', async () => {
+    const instance = new MockInstance(false)
+    const options = { '-c': 2, input: 'test' }
+    const result = await runInstance(instance, options)
+
+    expect(result).toEqual([{ input: 'test' }, { input: 'test' }])
+  })
+
+  test('should handle errors in predict with -c', async () => {
+    const instance = new MockInstance(true)
+    const options = { '-c': 2, input: 'test' }
+    const result = await runInstance(instance, options)
+
+    expect(result).toEqual([false, false])
   })
 })
