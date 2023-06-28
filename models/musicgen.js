@@ -5,7 +5,7 @@ class MusicGen extends ReplicateModel {
     super(replicate, defaultInputs)
     this.user = 'joehoover'
     this.model = 'musicgen-melody'
-    this.version = 'daba6434500d14d10b9865fd09c4aa9d9d9651ca68f164e99061f955a18008ac'
+    this.version = '2c56751d7f8642caf84cc64ec583c70087ac5ed90b27ca0005d00ff1be505417'
   }
 
   async saveOutputs (prediction, input) {
