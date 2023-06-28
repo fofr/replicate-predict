@@ -25,7 +25,7 @@ class ZeroScope extends ReplicateModel {
   async saveOutputs (prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
     await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp4`)
-    await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
+    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
   }
 }
 
