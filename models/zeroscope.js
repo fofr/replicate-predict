@@ -3,18 +3,18 @@ import ReplicateModel from '../lib/replicate-model.js'
 class ZeroScope extends ReplicateModel {
   constructor (replicate, defaultInputs = {
     num_frames: 24,
-    fps: 24,
-    width: 1024,
-    height: 576,
+    fps: 8,
+    width: 576,
+    height: 320,
     guidance_scale: 12.5,
     num_inference_steps: 50,
-    negative_prompt: 'noisy, washed out, ugly, distorted, low quality, garish',
-    model: 'xl'
+    model: '576w',
+    negative_prompt: 'noisy, washed out, ugly, distorted, low quality, garish'
   }) {
     super(replicate, defaultInputs)
     this.user = 'anotherjesse'
     this.model = 'zeroscope-v2-xl'
-    this.version = 'dcad8a883c2e99e3bf1d88590ce070bc6dd4e498af14a3f2f6e437f0f1ba7adb'
+    this.version = '71996d331e8ede8ef7bd76eba9fae076d31792e4ddf4ad057779b443d6aea62f'
   }
 
   async predict (input) {
@@ -24,7 +24,7 @@ class ZeroScope extends ReplicateModel {
 
   async saveOutputs (prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp4`)
+    await this.saveFilesUsingCurl(prediction, `${fileNameBase}.mp4`)
     await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
   }
 }
