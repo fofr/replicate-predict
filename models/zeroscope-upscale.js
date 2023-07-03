@@ -3,9 +3,9 @@ import ReplicateModel from '../lib/replicate-model.js'
 class ZeroScopeUpscale extends ReplicateModel {
   constructor (replicate, defaultInputs = {
     num_frames: 24,
-    fps: 24,
     width: 1024,
     height: 576,
+    fps: 8,
     guidance_scale: 12.5,
     num_inference_steps: 50,
     model: 'xl',
@@ -16,8 +16,15 @@ class ZeroScopeUpscale extends ReplicateModel {
     super(replicate, defaultInputs)
     this.user = 'anotherjesse'
     this.model = 'zeroscope-v2-xl'
-    this.version = 'dcad8a883c2e99e3bf1d88590ce070bc6dd4e498af14a3f2f6e437f0f1ba7adb'
+    this.version = '71996d331e8ede8ef7bd76eba9fae076d31792e4ddf4ad057779b443d6aea62f'
     this.defaultSingleInputName = 'init_video'
+  }
+
+  async predict (input) {
+    if (input.init_video) {
+      input.init_video = await this.loadImageAsDataURI(input.init_video)
+    }
+    return await super.predict(input)
   }
 
   async saveOutputs (prediction, input) {
