@@ -6,10 +6,6 @@ class ControlNet extends ImageInputModel {
     this.user = 'rossjillian'
     this.modelName = 'controlnet_1-1'
   }
-
-  async saveOutputs (prediction) {
-    await this.saveFileUsingCurl(prediction)
-  }
 }
 
 export default ControlNet

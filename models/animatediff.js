@@ -13,12 +13,6 @@ class AnimateDiff extends ReplicateModel {
     this.user = 'lucataco'
     this.modelName = 'animate-diff'
   }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFilesUsingCurl(prediction, `${fileNameBase}.mp4`)
-    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
-  }
 }
 
 export default AnimateDiff

@@ -10,7 +10,7 @@ class SadTalker extends ReplicateModel {
 
   async saveOutputs (prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp4`)
+    await this.saveFileUsingCurl(prediction, fileNameBase)
   }
 }
 

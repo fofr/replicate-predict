@@ -14,12 +14,6 @@ class SDXL extends ReplicateModel {
     this.user = 'stability-ai'
     this.modelName = 'sdxl'
   }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFilesUsingCurl(prediction, `${fileNameBase}.png`)
-    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
-  }
 }
 
 export default SDXL

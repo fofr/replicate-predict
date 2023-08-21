@@ -9,12 +9,6 @@ class Tango extends ReplicateModel {
     this.user = 'cjwbw'
     this.modelName = 'tango'
   }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFileUsingCurl(prediction, `${fileNameBase}.wav`)
-    await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
-  }
 }
 
 export default Tango

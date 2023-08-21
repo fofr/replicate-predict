@@ -6,10 +6,6 @@ class RealESRGAN extends ImageInputModel {
     this.user = 'nightmareai'
     this.modelName = 'real-esrgan'
   }
-
-  async saveOutputs (prediction) {
-    await this.saveFileUsingCurl(prediction)
-  }
 }
 
 export default RealESRGAN

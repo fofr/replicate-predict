@@ -15,17 +15,6 @@ class ZeroScope extends ReplicateModel {
     this.user = 'anotherjesse'
     this.modelName = 'zeroscope-v2-xl'
   }
-
-  async predict (input) {
-    input.prompt = `${input.prompt}, 8k, beautiful, award winning`
-    return await super.predict(input)
-  }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFilesUsingCurl(prediction, `${fileNameBase}.mp4`)
-    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
-  }
 }
 
 export default ZeroScope

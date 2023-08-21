@@ -14,8 +14,8 @@ class Bark extends ReplicateModel {
 
   async saveOutputs (prediction, input) {
     const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFileUsingCurl(prediction.audio_out, `${fileNameBase}.wav`)
-    await this.savePrompt(input.prompt, `${fileNameBase}.txt`)
+    await this.saveFileUsingCurl(prediction.audio_out, fileNameBase)
+    await this.savePrompt(input.prompt, fileNameBase)
   }
 }
 

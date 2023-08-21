@@ -25,12 +25,6 @@ class ZeroScopeUpscale extends ReplicateModel {
     }
     return await super.predict(input)
   }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp4`)
-    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
-  }
 }
 
 export default ZeroScopeUpscale

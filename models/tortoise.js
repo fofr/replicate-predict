@@ -12,12 +12,6 @@ class Tortoise extends ReplicateModel {
     this.promptSplit = '\n---\n'
     this.defaultSingleInputName = 'text'
   }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.text)
-    await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp3`)
-    await this.savePrompt(input.text, `${fileNameBase}.txt`)
-  }
 }
 
 export default Tortoise
