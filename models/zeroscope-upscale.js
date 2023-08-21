@@ -15,8 +15,7 @@ class ZeroScopeUpscale extends ReplicateModel {
   }) {
     super(replicate, defaultInputs)
     this.user = 'anotherjesse'
-    this.model = 'zeroscope-v2-xl'
-    this.version = '71996d331e8ede8ef7bd76eba9fae076d31792e4ddf4ad057779b443d6aea62f'
+    this.modelName = 'zeroscope-v2-xl'
     this.defaultSingleInputName = 'init_video'
   }
 
@@ -25,12 +24,6 @@ class ZeroScopeUpscale extends ReplicateModel {
       input.init_video = await this.loadImageAsDataURI(input.init_video)
     }
     return await super.predict(input)
-  }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFileUsingCurl(prediction, `${fileNameBase}.mp4`)
-    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
   }
 }
 

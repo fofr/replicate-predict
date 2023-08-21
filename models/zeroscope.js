@@ -13,19 +13,7 @@ class ZeroScope extends ReplicateModel {
   }) {
     super(replicate, defaultInputs)
     this.user = 'anotherjesse'
-    this.model = 'zeroscope-v2-xl'
-    this.version = '71996d331e8ede8ef7bd76eba9fae076d31792e4ddf4ad057779b443d6aea62f'
-  }
-
-  async predict (input) {
-    input.prompt = `${input.prompt}, 8k, beautiful, award winning`
-    return await super.predict(input)
-  }
-
-  async saveOutputs (prediction, input) {
-    const fileNameBase = this.generateFileName(input.prompt)
-    await this.saveFilesUsingCurl(prediction, `${fileNameBase}.mp4`)
-    await this.saveInputAndPrediction(input, prediction, `${fileNameBase}.txt`)
+    this.modelName = 'zeroscope-v2-xl'
   }
 }
 
