@@ -23,7 +23,7 @@ async function main () {
     console.log('Options: -a, --all, <single_input_value>, -c <count>, --count <count>')
     console.log('Use -c or --count with a number to run predict that many times')
     process.exit(1)
-}
+  }
 
   const ModelClass = models[modelName.toLowerCase()]
   const WorkflowClass = workflows[modelName.toLowerCase()]
