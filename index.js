@@ -37,6 +37,7 @@ async function main () {
 
   const instance = new InstanceClass(replicate)
   await instance.setModel()
+  await instance.setOutputDirectory()
 
   try {
     const result = await runInstance(instance, options)
