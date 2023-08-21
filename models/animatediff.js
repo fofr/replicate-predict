@@ -12,7 +12,6 @@ class AnimateDiff extends ReplicateModel {
     super(replicate, defaultInputs)
     this.user = 'lucataco'
     this.modelName = 'animate-diff'
-    this.version = '1531004ee4c98894ab11f8a4ce6206099e732c1da15121987a8eef54828f0663'
   }
 
   async saveOutputs (prediction, input) {

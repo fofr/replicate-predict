@@ -10,7 +10,6 @@ class ImagePrompts extends ReplicateModel {
     super(replicate, defaultInputs)
     this.user = 'fofr'
     this.modelName = 'image-prompts'
-    this.version = 'ba4130c13f3f1cd9771bc671bb13eab6ad5d839b2e55723b40742c03ef7f99ff'
   }
 
   async predict (input) {

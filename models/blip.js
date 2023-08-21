@@ -5,7 +5,6 @@ class Blip extends ImageInputModel {
     super(replicate, defaultInputs)
     this.user = 'salesforce'
     this.modelName = 'blip'
-    this.version = '2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746'
   }
 
   async saveOutputs (prediction, input) {

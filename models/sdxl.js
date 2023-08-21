@@ -11,8 +11,7 @@ class SDXL extends ReplicateModel {
   }) {
     super(replicate, defaultInputs)
     this.user = 'stability-ai'
-    this.model = 'sdxl'
-    this.version = '2b017d9b67edd2ee1401238df49d75da53c523f36e363881e057f5dc3ed3c5b2'
+    this.modelName = 'sdxl'
   }
 
   async saveOutputs (prediction, input) {
