@@ -14,8 +14,7 @@ class SDXLBarbie extends ReplicateModel {
   }) {
     super(replicate, defaultInputs)
     this.user = 'fofr'
-    this.model = 'sdxl-barbie'
-    this.version = '657c074cdd0e0098e39dae981194c4e852ad5bc88c7fbbeb0682afae714a6b0e'
+    this.modelName = 'sdxl-barbie'
   }
 
   async saveOutputs (prediction, input) {

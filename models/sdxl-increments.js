@@ -14,11 +14,10 @@ class SDXLIncrements extends ReplicateModel {
   }) {
     super(replicate, defaultInputs)
     this.user = 'replicate-internal'
-    this.model = 'sdxl'
-    this.version = '1f7611d83a8f7789159583ef2b8577570a595c402c977fada0b46161e088944f'
+    this.modelName = 'sdxl'
   }
 
-  async runAll () {
+  async predictFromFile () {
     await this.predictMany()
   }
 
