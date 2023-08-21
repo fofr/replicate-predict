@@ -4,7 +4,7 @@ class SadTalker extends ReplicateModel {
   constructor (replicate, defaultInputs) {
     super(replicate, defaultInputs)
     this.user = 'cjwbw'
-    this.model = 'sadtalker'
+    this.modelName = 'sadtalker'
     this.version = '423fe08772f8e2038f4de16e8dc80f26b5e756732445fd42061ff82d73cb1ba3'
     this.defaultSingleInputName = 'source_image'
   }

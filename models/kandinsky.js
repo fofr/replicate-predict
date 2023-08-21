@@ -4,7 +4,7 @@ class Kandinsky extends ReplicateModel {
   constructor (replicate, defaultInputs) {
     super(replicate, defaultInputs)
     this.user = 'ai-forever'
-    this.model = 'kandinsky-2'
+    this.modelName = 'kandinsky-2'
     this.version = '601eea49d49003e6ea75a11527209c4f510a93e2112c969d548fbb45b9c4f19f'
   }
 

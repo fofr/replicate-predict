@@ -8,7 +8,7 @@ class Tortoise extends ReplicateModel {
   }) {
     super(replicate, defaultInputs)
     this.user = 'afiaka87'
-    this.model = 'tortoise-tts'
+    this.modelName = 'tortoise-tts'
     this.version = 'e9658de4b325863c4fcdc12d94bb7c9b54cbfe351b7ca1b36860008172b91c71'
     this.promptSplit = '\n---\n'
     this.defaultSingleInputName = 'text'
