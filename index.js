@@ -14,28 +14,29 @@ async function main () {
   const models = await loadModels()
   const workflows = await loadWorkflows()
 
-  const modelName = process.argv[2]
+  const model = process.argv[2]
   const args = process.argv.slice(3)
   const options = parseArgs(args)
 
-  if (!modelName || Object.keys(options).length === 0) {
-    console.log('Usage: node index.js <model_name> <option> [--<option_name> <option_value>]*')
+  if (!model || Object.keys(options).length === 0) {
+    console.log('Usage: node index.js <model> <option> [--<option_name> <option_value>]*')
     console.log('Options: -a, --all, <single_input_value>, -c <count>, --count <count>')
     console.log('Use -c or --count with a number to run predict that many times')
     process.exit(1)
   }
 
-  const ModelClass = models[modelName.toLowerCase()]
-  const WorkflowClass = workflows[modelName.toLowerCase()]
-  const InstanceClass = ModelClass || WorkflowClass
+  const ModelClass = models[model.toLowerCase()]
+  const WorkflowClass = workflows[model.toLowerCase()]
+  const InstanceClass = ModelClass || WorkflowClass || models.replicate
 
-  if (!InstanceClass) {
-    console.log('Invalid model or workflow name. Available models: ', Object.keys(models).join(', '))
-    console.log('Available workflows: ', Object.keys(workflows).join(', '))
-    process.exit(1)
+  let instance
+  if (InstanceClass === models.replicate) {
+    const [user, modelName] = model.toLowerCase().split('/')
+    instance = new InstanceClass(replicate, { user, modelName })
+  } else {
+    instance = new InstanceClass(replicate)
   }
 
-  const instance = new InstanceClass(replicate)
   await instance.setModel()
   await instance.setOutputDirectory()
 
