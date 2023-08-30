@@ -1,0 +1,7 @@
+{
+  "refine": "expert_ensemble_refiner",
+  "high_noise_frac": 0.95,
+  "apply_watermark": false,
+  "num_inference_steps": 35,
+  "num_outputs": 4
+}
